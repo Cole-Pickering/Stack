@@ -4,9 +4,25 @@
 
 bool verifySolution(std::string s1, std::string s2, std::string s3, const std::unordered_map<char, unsigned> & mapping)
 {
+    std::string x1 = "";
     for (int i = 0; i< s1.size(); i++){
-        int x =0;
+        x1 += mapping.at(s1[i]);
     } 
-    return true;
+    
+    std::string x2 = "";
+    for (int i = 0; i< s2.size(); i++){
+        x2 += mapping.at(s2[i]);
+    }
+    
+    std::string x3 = "";
+    for (int i = 0; i< s3.size(); i++){
+        x3 += mapping.at(s3[i]);
+    }
+    if (std::stoi(x1) + std::stoi(x2) == std::stoi(x3)){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
