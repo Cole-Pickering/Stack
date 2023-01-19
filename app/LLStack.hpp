@@ -67,7 +67,6 @@ LLStack<Object>::LLStack()
 template <typename Object>
 LLStack<Object>::LLStack(const LLStack & st)
 {
-	// TODO: Fill in your copy constructor implementation here.
 
 	this->head = NULL;
 	LL* temp = st.head;
