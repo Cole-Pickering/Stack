@@ -1,6 +1,7 @@
 #ifndef __ICS46_LL_STACK_HPP
 #define __ICS46_LL_STACK_HPP
 
+#include <iostream>
 #include "runtimeexcept.hpp"
 
 class StackEmptyException : public RuntimeException 
@@ -16,6 +17,17 @@ class LLStack
 {
 private:
 	// fill in private member data here
+
+	// Linked list class for nodes
+	struct LL
+	{
+		LL* next;
+		Object val;
+	};
+
+	//Head node in stack
+	LL* head;
+
 
 public:
 
@@ -49,7 +61,7 @@ public:
 template <typename Object>
 LLStack<Object>::LLStack()
 {
-	// TODO: Fill in your constructor implementation here.
+	this->head = NULL;
 }
 
 template <typename Object>
@@ -57,33 +69,68 @@ LLStack<Object>::LLStack(const LLStack & st)
 {
 	// TODO: Fill in your copy constructor implementation here.
 
+	this->head = NULL;
+	LL* temp = st.head;
+	while(temp){
+		this->push(temp->val);
+		temp = temp->next;
+	}
+
 }
 
 template <typename Object>
 LLStack<Object> & LLStack<Object>::operator=(const LLStack & st)
 {
 	// TODO: Fill in your assignment operator implementation here.
-	return *this; // Stub so this function compiles without implementation.
+	this->~LLStack();
+	this->head = NULL;
+	LL* temp = st.head;
+	while(temp){
+		this->push(temp->val);
+		temp = temp->next;
+	}
+	return *this;
+
 }
 
 template <typename Object>
 LLStack<Object>::~LLStack()
 {
 	// TODO: Fill in your destructor implementation here.
+	
+	if (head){
+	LL* temp = head->next;
+	delete head;
+	while (temp){
+		head = temp;
+		temp = temp->next;
+		delete head;
+	}
+	}
+
 }
 
 template <typename Object>
 size_t LLStack<Object>::size() const noexcept
 {
 	// TODO: Fill in your size() implementation here.
-	return 0; // Stub so this function compiles without an implementation.
+	int s = 0;
+	LL* temp = head;
+	while(temp){
+		s+=1;
+		temp = temp->next;
+	}
+	return s; // Stub so this function compiles without an implementation.
 }
 
 template <typename Object>
 bool LLStack<Object>::isEmpty() const noexcept
 {
 	// TODO: Fill in your isEmpty() implementation here.
-	return true; // Stub so this function compiles without an implementation.
+	if (head){
+		return false;
+	}
+	return true;
 }
 
 template <typename Object>
@@ -92,8 +139,12 @@ Object& LLStack<Object>::top()
 	// TODO: Fill in your top() implementation here.
 	// The following is a stub just to get the template project to compile.
 	// You should delete it for your implementation.
-	Object * o = new Object();
-	return *o;
+
+	if(!head){
+		throw StackEmptyException("Stack Empty");
+	}
+	return head->val;
+	
 }
 
 template <typename Object>
@@ -102,20 +153,32 @@ const Object& LLStack<Object>::top() const
 	// TODO: Fill in your const top() implementation here.
 	// The following is a stub just to get the template project to compile.
 	// You should delete it for your implementation.
-	const Object * o = new Object();
-	return *o;
+	if(!head){
+		throw StackEmptyException("Stack Empty");
+	}
+	return head->val;
 }
 
 template <typename Object>
 void LLStack<Object>::push(const Object& elem) noexcept
 {
 	// TODO: Fill in your push() implementation here.
+	LL* temp = head;
+	head = new LL;
+	head->next = temp;
+	head->val = elem;
 }
 
 template <typename Object>
 void LLStack<Object>::pop()
 {
 	// TODO: Fill in your pop() implementation here.
+	//                                                               TEST IS EMPTY FIRST
+	
+	LL* temp = head;
+	head = head->next;
+	delete temp;
+	
 }
 
 
