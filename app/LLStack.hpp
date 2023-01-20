@@ -1,7 +1,6 @@
 #ifndef __ICS46_LL_STACK_HPP
 #define __ICS46_LL_STACK_HPP
 
-#include <iostream>
 #include "runtimeexcept.hpp"
 
 class StackEmptyException : public RuntimeException 
@@ -172,8 +171,9 @@ template <typename Object>
 void LLStack<Object>::pop()
 {
 	// TODO: Fill in your pop() implementation here.
-	//                                                               TEST IS EMPTY FIRST
-	
+	if(!head){
+		throw StackEmptyException("Stack Empty");
+	}
 	LL* temp = head;
 	head = head->next;
 	delete temp;
